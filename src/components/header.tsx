@@ -9,22 +9,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { FaRegSquareCheck } from "react-icons/fa6";
+import { Button } from "~/components/ui/button";
+import { FaSquareCheck } from "react-icons/fa6";
+import { Toggle } from "~/components/theme/toggle";
 
 const Header = async () => {
   const session = await auth();
-  console.log(session);
+
   return (
-    <header className="flex justify-between items-center py-4">
-      <h1 className="text-xl font-semibold">
-        <Link href="/">
-          <FaRegSquareCheck className="inline-block mr-2 mb-1 w-6 h-6" />
-          Todo App
+    <header className="flex items-center justify-between py-4">
+      <Button variant="outline" asChild>
+        <Link href="/" prefetch={true}>
+          <h1 className="text-lg font-semibold flex items-center gap-x-2">
+            <FaSquareCheck className="inline-block h-8 w-8" />
+            Todo App
+          </h1>
         </Link>
-      </h1>
+      </Button>
       <nav>
-        <ul>
+        <ul className="flex gap-x-2">
           <li>
             {session ? (
               <DropdownMenu>
@@ -39,16 +42,16 @@ const Header = async () => {
                   <DropdownMenuItem>
                     <Button
                       variant="link"
-                      className="justify-start p-0 w-full hover:no-underline"
+                      className="w-full justify-start p-0 hover:no-underline"
                     >
-                      <Link href="/settings">Settings</Link>
+                      <Link href="/">Settings</Link>
                     </Button>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <AuthButton
                       session={session}
                       variant="link"
-                      className="justify-start p-0 w-full hover:no-underline"
+                      className="w-full justify-start p-0 hover:no-underline"
                     />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -56,6 +59,9 @@ const Header = async () => {
             ) : (
               <AuthButton session={session} />
             )}
+          </li>
+          <li>
+            <Toggle />
           </li>
         </ul>
       </nav>

@@ -131,3 +131,13 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+/**
+ * Error procedure
+ *
+ * This is a procedure that always throws an error. It's useful for testing error handling on the
+ * frontend. You can remove this if you don't need it.
+ */
+export const errorProcedure = t.procedure.use(timingMiddleware).use(() => {
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+});

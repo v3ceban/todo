@@ -37,10 +37,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="container mx-auto px-4">
-              <Header />
-              <main>{children}</main>
-            </div>
+            <Header />
+            <main className="container mx-auto px-4">{children}</main>
           </ThemeProvider>
         </TRPCReactProvider>
       </body>

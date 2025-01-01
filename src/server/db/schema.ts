@@ -2,11 +2,13 @@ import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
+  boolean,
   pgTableCreator,
   primaryKey,
   text,
   timestamp,
   varchar,
+  uuid,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -18,26 +20,29 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `todo_${name}`);
 
-export const posts = createTable(
-  "post",
+export const tasks = createTable(
+  "task",
   {
-    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("created_by", { length: 255 })
+    id: uuid("id").notNull().unique().defaultRandom(),
+    createdBy: varchar("created_by", { length: 255 })
       .notNull()
       .references(() => users.id),
+    content: text("content").notNull(),
+    isCompleted: boolean("is_completed").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date()
+      () => new Date(),
     ),
   },
-  (example) => ({
-    createdByIdIdx: index("created_by_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  })
+  (task) => ({
+    createdByIndex: index("created_by_idx").on(task.createdBy),
+  }),
 );
+
+export type InsertTask = typeof tasks.$inferInsert;
+export type SelectTask = typeof tasks.$inferSelect;
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
@@ -56,6 +61,8 @@ export const users = createTable("user", {
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
 }));
+
+export type SelectUser = typeof users.$inferSelect;
 
 export const accounts = createTable(
   "account",
@@ -83,7 +90,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_user_id_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -106,7 +113,7 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_user_id_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -125,5 +132,5 @@ export const verificationTokens = createTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );

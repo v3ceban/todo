@@ -156,7 +156,7 @@ const Modal = ({
             </Button>
           )}
           <Button
-            className="sm:order-3"
+            className={`sm:order-3 ${!task && !onDelete ? "col-span-2" : ""}`}
             onClick={handleSave}
             disabled={loading}
           >

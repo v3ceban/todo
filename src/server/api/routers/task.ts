@@ -5,12 +5,17 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ content: z.string().min(1) }))
+    .input(z.object({ content: z.string().min(3).max(255) }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(tasks).values({
-        content: input.content,
-        createdBy: ctx.session.user.id,
-      });
+      const [newTask] = await ctx.db
+        .insert(tasks)
+        .values({
+          content: input.content,
+          createdBy: ctx.session.user.id,
+        })
+        .returning();
+
+      return newTask;
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -32,16 +37,24 @@ export const taskRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const updateData: { isCompleted?: boolean; content?: string } = {};
+      const updateData: {
+        isCompleted?: boolean;
+        content?: string;
+        completedAt?: Date | null;
+      } = {};
       if (input.isCompleted !== undefined) {
         updateData.isCompleted = input.isCompleted;
+        updateData.completedAt = input.isCompleted ? new Date() : null;
       }
       if (input.content !== undefined) {
         updateData.content = input.content;
       }
-      await ctx.db
-        .update(tasks)
-        .set(updateData)
-        .where(eq(tasks.id, input.id));
+      await ctx.db.update(tasks).set(updateData).where(eq(tasks.id, input.id));
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(tasks).where(eq(tasks.id, input.id));
     }),
 });

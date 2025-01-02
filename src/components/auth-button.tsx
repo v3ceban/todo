@@ -3,16 +3,16 @@
 import React from "react";
 import { Button, type ButtonProps } from "~/components/ui/button";
 import { signIn, signOut } from "next-auth/react";
-import type { Session } from "next-auth";
+import { type Session } from "next-auth";
 import { Spinner } from "~/components/ui/spinner";
 export const AuthButton = ({
   session,
-  className,
-  variant,
+  ...props
 }: {
   session: Session | null;
   className?: string;
   variant?: ButtonProps["variant"];
+  size?: ButtonProps["size"];
 }) => {
   const [loading, setLoading] = React.useState(false);
 
@@ -33,18 +33,8 @@ export const AuthButton = ({
   const loadingText = session ? "Signing out" : "Signing in";
 
   return (
-    <Button
-      className={className}
-      onClick={session ? handleLogout : handleLogin}
-      variant={variant}
-    >
-      {loading ? (
-        <>
-          <Spinner /> {loadingText}
-        </>
-      ) : (
-        text
-      )}
+    <Button onClick={session ? handleLogout : handleLogin} {...props}>
+      {loading ? <Spinner>{loadingText}</Spinner> : text}
     </Button>
   );
 };

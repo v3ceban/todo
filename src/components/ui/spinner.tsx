@@ -1,9 +1,15 @@
 import PropTypes from "prop-types";
 import { cn } from "~/lib/utils";
 
-const Spinner = ({ className }: { className?: string }) => {
+const Spinner = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: Readonly<React.ReactNode>;
+}) => {
   return (
-    <div role="status">
+    <span role="status">
       <svg
         aria-hidden="true"
         className={cn(
@@ -23,8 +29,9 @@ const Spinner = ({ className }: { className?: string }) => {
           fill="currentFill"
         />
       </svg>
+      {children && <span className="ml-1">{children}</span>}
       <span className="sr-only">Loading...</span>
-    </div>
+    </span>
   );
 };
 

@@ -1,25 +1,16 @@
-import Task from "~/components/task";
-import { Button } from "~/components/ui/button";
+import TaskList from "~/components/tasks/list";
 import { api } from "~/trpc/server";
-import type { SelectTask } from "~/server/db/schema";
+import { type SelectTask } from "~/server/db/schema";
+import { auth } from "~/server/auth";
 
 const Home = async () => {
   let tasks: SelectTask[] = [];
-  let message = "You don't have any tasks yet. Add one to get started!";
+  let message: string;
   try {
     tasks = await api.task.getAll();
     return (
       <HomeContent>
-        {tasks.length > 0 ? (
-          <ul>
-            {tasks.map((task) => (
-              <Task key={task.id} task={task} />
-            ))}
-          </ul>
-        ) : (
-          <p>{message}</p>
-        )}
-        <Button>Add Task</Button>
+        <TaskList initTasks={tasks} />
       </HomeContent>
     );
   } catch (error) {
@@ -38,10 +29,17 @@ const Home = async () => {
   }
 };
 
-const HomeContent = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+const HomeContent = async ({
+  children,
+}: Readonly<{ children: React.ReactNode }>) => {
+  const session = await auth();
+  const username = session?.user?.name?.split(" ")[0];
+
   return (
     <>
-      <h2>Tasks</h2>
+      <h2 className="mb-4 text-3xl font-bold">
+        {username ? `${username}'s Tasks` : "Your Tasks"}
+      </h2>
       {children}
     </>
   );

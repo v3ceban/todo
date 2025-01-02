@@ -2,11 +2,10 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/theme/provider";
-
 import Header from "~/components/header";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Todo App",
@@ -38,7 +37,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
-            <main className="container mx-auto px-4">{children}</main>
+            <main className="container px-4 mx-auto">{children}</main>
+            <Toaster />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>

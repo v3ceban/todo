@@ -27,14 +27,12 @@ export const tasks = createTable(
     createdBy: varchar("created_by", { length: 255 })
       .notNull()
       .references(() => users.id),
-    content: text("content").notNull(),
+    content: varchar("content", { length: 255 }).notNull(),
     isCompleted: boolean("is_completed").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date(),
-    ),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
   },
   (task) => ({
     createdByIndex: index("created_by_idx").on(task.createdBy),

@@ -24,11 +24,55 @@ import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { FaGithub, FaSquareCheck } from "react-icons/fa6";
 import { Toggle } from "~/components/theme/toggle";
-import { updateUser } from "~/server/actions";
+import { db } from "~/server/db";
+import { users } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 const Header = async () => {
   const session = await auth();
   const username = session?.user.name?.split(" ") ?? ["User", "Name"];
+
+  const handleSubmit = async (e: FormData) => {
+    "use server";
+
+    if (!session) {
+      console.error("Unauthorized");
+      return;
+    }
+
+    const fistName = e.get("firstName") as string;
+    const lastName = e.get("lastName") as string;
+
+    if (!fistName || !lastName) {
+      console.error("Invalid name");
+      return;
+    }
+
+    const name = `${fistName.trim()} ${lastName.trim()}`.trim();
+
+    if (!name || name.length > 255) {
+      console.error("Invalid name");
+      return;
+    }
+
+    if (name === session.user.name) {
+      return;
+    }
+
+    try {
+      await db
+        .update(users)
+        .set({
+          name: `${fistName} ${lastName}`,
+        })
+        .where(eq(users.id, session.user.id));
+      revalidatePath("/");
+    } catch (error) {
+      console.error("Failed to update profile", error);
+      return;
+    }
+  };
 
   return (
     <header className="sticky top-0 left-0 z-10 mb-4 border-b bg-background">
@@ -71,7 +115,7 @@ const Header = async () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <DialogContent className="sm:max-w-[425px]">
-                    <form action={updateUser}>
+                    <form action={handleSubmit}>
                       <DialogHeader className="text-left">
                         <DialogTitle>Edit profile</DialogTitle>
                         <DialogDescription>

@@ -3,6 +3,8 @@ import { api } from "~/trpc/server";
 import { type SelectTask } from "~/server/db/schema";
 import { auth } from "~/server/auth";
 
+export const dynamic = "force-dynamic";
+
 const Home = async () => {
   let tasks: SelectTask[] = [];
   let message: string;

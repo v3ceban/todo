@@ -6,6 +6,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/theme/provider";
 import Header from "~/components/header";
 import { Toaster } from "~/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Todo App",
@@ -39,6 +41,8 @@ export default function RootLayout({
             <Header />
             <main className="container px-4 mx-auto">{children}</main>
             <Toaster />
+            <Analytics />
+            <SpeedInsights />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>

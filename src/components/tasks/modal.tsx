@@ -20,7 +20,7 @@ import { api } from "~/trpc/react";
 import { useToast } from "~/hooks/use-toast";
 import { defaultToastError } from "~/components/ui/toast";
 import ErrorMessage from "../ui/error-message";
-import { handleKeyDown } from "~/lib/utils";
+import { handleEnterKey } from "~/lib/utils";
 
 const Modal = ({
   children,
@@ -40,6 +40,7 @@ const Modal = ({
   variant?: ButtonProps["variant"];
   size?: ButtonProps["size"];
   className?: string;
+  accessKey?: string;
 }) => {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -135,7 +136,7 @@ const Modal = ({
             ref={inputRef}
             defaultValue={task ? task.content : ""}
             placeholder="Enter task name"
-            onKeyDown={(e) => handleKeyDown(e, handleSave)}
+            onKeyDown={(e) => handleEnterKey(e, handleSave)}
           />
         </Label>
         <ErrorMessage message={error} condition={Boolean(error)} />

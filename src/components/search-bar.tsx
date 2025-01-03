@@ -26,7 +26,7 @@ const SearchBar = ({
     >
       {query.length > 0 ? (
         <FaCircleXmark
-          className="absolute right-4 top-1/2 opacity-50 -translate-y-1/2 cursor-pointer hover:opacity-100"
+          className="absolute right-4 top-1/2 opacity-50 -translate-y-1/2 cursor-pointer hover:opacity-90"
           onClick={() => setQuery("")}
         />
       ) : (
@@ -35,9 +35,15 @@ const SearchBar = ({
       <Input
         type="text"
         placeholder="Search"
+        accessKey="f"
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            setQuery("");
+          }
         }}
       />
     </form>

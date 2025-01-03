@@ -76,6 +76,7 @@ const TaskList = ({
       <Modal
         className="block m-auto mt-8 w-full max-w-sm sm:mr-0 sm:w-fit"
         onCreate={handleCreate}
+        accessKey="n"
       >
         Add a new task
       </Modal>

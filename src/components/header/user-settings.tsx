@@ -29,7 +29,7 @@ import ErrorMessage from "~/components/ui/error-message";
 import { defaultToastError } from "../ui/toast";
 import { useToast } from "~/hooks/use-toast";
 import { Spinner } from "~/components/spinner";
-import { handleKeyDown, nameRegex } from "~/lib/utils";
+import { handleEnterKey, nameRegex } from "~/lib/utils";
 
 export const UserSettings = ({
   username,
@@ -166,7 +166,7 @@ export const UserSettings = ({
               ref={fNameRef}
               defaultValue={username[0] ?? ""}
               placeholder="Enter your name"
-              onKeyDown={(e) => handleKeyDown(e, handleClick)}
+              onKeyDown={(e) => handleEnterKey(e, handleClick)}
             />
           </Label>
           <ErrorMessage
@@ -179,7 +179,7 @@ export const UserSettings = ({
               ref={lNameRef}
               defaultValue={username[username.length - 1] ?? ""}
               placeholder="Enter your last name"
-              onKeyDown={(e) => handleKeyDown(e, handleClick)}
+              onKeyDown={(e) => handleEnterKey(e, handleClick)}
             />
           </Label>
           <ErrorMessage

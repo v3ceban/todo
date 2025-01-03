@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const nameRegex = /^[a-zA-Z'-]+$/;
 
-export const handleKeyDown = async (
+export const handleEnterKey = async (
   e: React.KeyboardEvent,
   cb: (() => void) | (() => Promise<void>),
 ) => {

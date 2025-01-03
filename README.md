@@ -16,10 +16,10 @@ A simple todo application built with [Next.js](https://nextjs.org/), [tRPC](http
 
 ## Features
 
-- Create, read, update, and delete todo items.
-- Full-stack type safety using tRPC.
-- Database interactions handled by Drizzle.
-- Server-side rendering and API routes using Next.js.
+- Create, read, update, and delete todo items
+- Full-stack type safety using tRPC
+- Database interactions handled by Drizzle
+- Server-side rendering and API routes using Next.js
 
 ## Prerequisites
 
@@ -49,7 +49,7 @@ A simple todo application built with [Next.js](https://nextjs.org/), [tRPC](http
 
 ## Project Structure
 
-Below is a simplified overview of the folder structure (some directories may vary based on your own setup):
+Below is a simplified overview of the `src` directory structure:
 
 ```
 ./src/
@@ -72,7 +72,7 @@ Below is a simplified overview of the folder structure (some directories may var
    npm run dev
 
    # Using pnpm
-   pnpm dev
+   pnpm run dev
    ```
 
 2. **Open the app in the browser** at [http://localhost:3000](http://localhost:3000).
@@ -101,7 +101,7 @@ You can find required environment variables in `.env.example`.
    npm run build
 
    # Using pnpm
-   pnpm build
+   pnpm run build
    ```
 
 2. **Start the production server:**
@@ -111,7 +111,7 @@ You can find required environment variables in `.env.example`.
    npm run start
 
    # Using pnpm
-   pnpm start
+   pnpm run start
    ```
 
 3. **Deploy on your preferred platform** (e.g., Vercel, AWS, or Docker). Make sure to set your environment variables accordingly on the hosting service.

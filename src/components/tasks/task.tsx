@@ -101,6 +101,7 @@ const Task = ({
 
   const handleDelete = () => {
     if (deleting) return;
+    if (!confirm("Are you sure you want to delete this task?")) return;
     deleteTask({ id: task.id });
   };
 

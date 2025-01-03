@@ -49,6 +49,8 @@ export const UserSettings = ({
   const { toast } = useToast();
 
   const handleClick = async () => {
+    if (loading) return;
+
     const firstName = fNameRef.current?.value?.trim();
     const lastName = lNameRef.current?.value?.trim();
 
@@ -80,6 +82,11 @@ export const UserSettings = ({
       return;
     }
 
+    if (`${username[0]} ${username[username.length - 1]}` === `${firstName} ${lastName}`) {
+      setOpen(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setErrors({
@@ -100,6 +107,12 @@ export const UserSettings = ({
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleKeyDown = async (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      await handleClick();
     }
   };
 
@@ -157,6 +170,7 @@ export const UserSettings = ({
               className="text-sm font-normal"
               defaultValue={username[0] ?? ""}
               placeholder="Enter your name"
+              onKeyDown={handleKeyDown}
             />
           </Label>
           <ErrorMessage
@@ -170,6 +184,7 @@ export const UserSettings = ({
               className="text-sm font-normal"
               defaultValue={username[username.length - 1] ?? ""}
               placeholder="Enter your last name"
+              onKeyDown={handleKeyDown}
             />
           </Label>
           <ErrorMessage

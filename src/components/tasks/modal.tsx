@@ -70,11 +70,18 @@ const Modal = ({
   const { mutate: createTask, error: createError } =
     api.task.create.useMutation(mutationSettings);
 
-  const handleSave = async () => {
+  const handleSave = () => {
+    if (loading) return;
+
     const content = inputRef.current?.value.trim();
 
     if (!content) {
       setError("Please enter a task name");
+      return;
+    }
+
+    if (content === task?.content) {
+      setOpen(false);
       return;
     }
 
@@ -84,6 +91,13 @@ const Modal = ({
       createTask({ content });
     }
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSave();
+    }
+  }
 
   React.useEffect(() => {
     const zodContentErrors: string[] | undefined =
@@ -128,6 +142,7 @@ const Modal = ({
             className="text-sm font-normal"
             defaultValue={task ? task.content : ""}
             placeholder="Enter task name"
+            onKeyDown={handleKeyDown}
           />
         </Label>
         <ErrorMessage message={error} condition={Boolean(error)} />

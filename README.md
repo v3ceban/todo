@@ -1,29 +1,121 @@
-# Create T3 App
+# Todo App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A simple todo application built with [Next.js](https://nextjs.org/), [tRPC](https://trpc.io/), and [Drizzle](https://orm.drizzle.team/).
 
-## What's next? How do I make an app with this?
+## Table of Contents
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Features
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- Create, read, update, and delete todo items.
+- Full-stack type safety using tRPC.
+- Database interactions handled by Drizzle.
+- Server-side rendering and API routes using Next.js.
 
-## Learn More
+## Prerequisites
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- Node.js (v20 or higher recommended)
+- npm or pnpm
+- A PostgreSQL database (Neon, Prisma, Supabase, Docker, etc.)
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Installation
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/v3ceban/todo.git
+   ```
+2. **Navigate to the project directory:**
+   ```bash
+   cd todo
+   ```
+3. **Install dependencies:**
 
-## How do I deploy this?
+   ```bash
+   # Using npm
+   npm install
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+   # or using pnpm
+   pnpm install
+   ```
+
+## Project Structure
+
+Below is a simplified overview of the folder structure (some directories may vary based on your own setup):
+
+```
+./src/
+├── app/                # Next.js app directory (pages, API routes, etc.)
+├── components/         # Reusable React components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+├── server/             # Server-side code (tRPC, database, authentication, server actions)
+├── styles/             # Global styling
+├── trpc/               # tRPC API definitions
+└── ...
+```
+
+## Usage
+
+1. **Start the development server:**
+
+   ```bash
+   # Using npm
+   npm run dev
+
+   # Using pnpm
+   pnpm dev
+   ```
+
+2. **Open the app in the browser** at [http://localhost:3000](http://localhost:3000).
+
+3. **Create Todo Items**: Use the UI to authenticate and view/add/edit/remove your todo tasks.
+
+## Environment Variables
+
+Create a file named `.env` or `.env.local` in the root directory and add required environment variables. For example:
+
+```bash
+AUTH_SECRET="secret"
+AUTH_GOOGLE_ID="google_id"
+AUTH_GOOGLE_SECRET="google_secret"
+DATABASE_URL=postgresql://user:password@localhost:5432/database_name
+```
+
+You can find required environment variables in `.env.example`.
+
+## Deployment
+
+1. **Build the application for production:**
+
+   ```bash
+   # Using npm
+   npm run build
+
+   # Using pnpm
+   pnpm build
+   ```
+
+2. **Start the production server:**
+
+   ```bash
+   # Using npm
+   npm run start
+
+   # Using pnpm
+   pnpm start
+   ```
+
+3. **Deploy on your preferred platform** (e.g., Vercel, AWS, or Docker). Make sure to set your environment variables accordingly on the hosting service.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

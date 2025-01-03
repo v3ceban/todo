@@ -12,8 +12,11 @@ export const handleKeyDown = async (
   cb: (() => void) | (() => Promise<void>),
 ) => {
   if (e.key === "Enter") {
-    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-      (e.target as HTMLElement).blur();
+    if (
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0) &&
+      e.target instanceof HTMLElement
+    ) {
+      e.target.blur();
       return;
     }
     e.preventDefault();

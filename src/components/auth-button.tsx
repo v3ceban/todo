@@ -4,7 +4,8 @@ import React from "react";
 import { Button, type ButtonProps } from "~/components/ui/button";
 import { signIn, signOut } from "next-auth/react";
 import { type Session } from "next-auth";
-import { Spinner } from "~/components/ui/spinner";
+import { Spinner } from "~/components/spinner";
+
 export const AuthButton = ({
   session,
   ...props

@@ -1,4 +1,5 @@
 import React from "react";
+import Pagination from "~/components/pagination";
 
 export const usePagination = <T,>({
   current = 1,
@@ -27,5 +28,6 @@ export const usePagination = <T,>({
     setCurrentPage,
     maxPages,
     itemsToShow,
+    Pagination,
   };
 };

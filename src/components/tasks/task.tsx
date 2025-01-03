@@ -8,7 +8,7 @@ import { debounce } from "lodash";
 import { api } from "~/trpc/react";
 import Modal from "~/components/tasks/modal";
 import { Button } from "~/components/ui/button";
-import { Spinner } from "~/components/ui/spinner";
+import { Spinner } from "~/components/spinner";
 import {
   Card,
   CardDescription,

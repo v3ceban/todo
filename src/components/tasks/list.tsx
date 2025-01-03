@@ -5,8 +5,8 @@ import Task from "~/components/tasks/task";
 import Modal from "~/components/tasks/modal";
 import { type SelectTask } from "~/server/db/schema";
 import { usePagination } from "~/hooks/use-pagination";
-import Pagination from "~/components/pagination";
 import EmptyTaskList from "~/components/tasks/empty";
+import { useSearch } from "~/hooks/use-search";
 
 const TaskList = ({
   initTasks,
@@ -18,11 +18,17 @@ const TaskList = ({
   itemsPerPage?: number;
 }) => {
   const [tasks, setTasks] = React.useState(initTasks);
-  const { currentPage, setCurrentPage, maxPages, itemsToShow } =
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const { searchResults, SearchBar } = useSearch<SelectTask>({
+    data: tasks,
+    query: searchQuery,
+    field: "content",
+  });
+  const { currentPage, setCurrentPage, maxPages, itemsToShow, Pagination } =
     usePagination<SelectTask>({
       current: page,
       itemsPerPage,
-      items: tasks,
+      items: searchResults,
     });
 
   const handleCreate = (task: SelectTask) => {
@@ -42,22 +48,29 @@ const TaskList = ({
 
   return (
     <>
-      {tasks.length > 0 ? (
-        <>
-          <ul className="grid gap-x-4 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
-            {itemsToShow.map((task) => (
-              <Task
-                key={task.id}
-                task={task}
-                onDelete={handleDelete}
-                onUpdate={handleUpdate}
-              />
-            ))}
-          </ul>
-        </>
+      {tasks.length > 0 && (
+        <SearchBar
+          className="relative sm:ml-auto sm:-mb-6 sm:-translate-y-[52px]"
+          query={searchQuery}
+          setQuery={setSearchQuery}
+        />
+      )}
+      {searchResults.length > 0 ? (
+        <ul className="grid gap-x-4 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+          {itemsToShow.map((task) => (
+            <Task
+              key={task.id}
+              task={task}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ))}
+        </ul>
       ) : (
         <EmptyTaskList imgSrc="/empty-folder.webp">
-          You do not have any tasks yet. Try creating one!
+          {searchQuery
+            ? "We couldn't find any tasks matching your search, please try again."
+            : "You do not have any tasks yet. Try creating one!"}
         </EmptyTaskList>
       )}
       <Modal
@@ -66,7 +79,7 @@ const TaskList = ({
       >
         Add a new task
       </Modal>
-      {tasks.length > itemsPerPage && (
+      {searchResults.length > itemsPerPage && (
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

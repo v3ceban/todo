@@ -23,3 +23,7 @@ export const handleKeyDown = async (
     await cb();
   }
 };
+
+export const pushWindowState = (url: string) => {
+  window.history.pushState({}, "", url);
+};

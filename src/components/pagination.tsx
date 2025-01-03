@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import {
   Pagination as PaginationContainer,
   PaginationContent,
@@ -9,6 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "~/components/ui/pagination";
+import { pushWindowState } from "~/lib/utils";
 
 const Pagination = ({
   currentPage,
@@ -20,15 +19,19 @@ const Pagination = ({
   maxPage: number;
   usesLink?: boolean;
 }) => {
+  const handleClick = (page: number) => {
+    setCurrentPage(page);
+    pushWindowState(`/page/${page}`);
+  };
+
   return (
-    <PaginationContainer className="my-8">
-      <PaginationContent className="grid grid-cols-3 w-full max-w-sm sm:w-fit place-items-stretch">
+    <PaginationContainer className="my-8 select-none">
+      <PaginationContent className="grid grid-cols-3 place-items-stretch w-full max-w-sm sm:w-fit">
         <PaginationItem>
           <PaginationPrevious
             onClick={() => {
               const newPage = Math.max(1, currentPage - 1);
-              setCurrentPage(newPage);
-              window.history.pushState({}, "", `/page/${newPage}`);
+              handleClick(newPage);
             }}
             aria-disabled={currentPage === 1}
             className={`w-full ${currentPage === 1 ? "cursor-not-allowed opacity-50 hover:bg-transparent" : ""}`}
@@ -41,8 +44,7 @@ const Pagination = ({
           <PaginationNext
             onClick={() => {
               const newPage = Math.min(maxPage, currentPage + 1);
-              setCurrentPage(newPage);
-              window.history.pushState({}, "", `/page/${newPage}`);
+              handleClick(newPage);
             }}
             aria-disabled={currentPage === maxPage}
             className={`w-full ${currentPage === maxPage ? "cursor-not-allowed opacity-50 hover:bg-transparent" : ""}`}

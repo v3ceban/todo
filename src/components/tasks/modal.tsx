@@ -15,7 +15,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button, type ButtonProps } from "~/components/ui/button";
 import { type SelectTask } from "~/server/db/schema";
-import { Spinner } from "~/components/ui/spinner";
+import { Spinner } from "~/components/spinner";
 import { api } from "~/trpc/react";
 import { useToast } from "~/hooks/use-toast";
 import { defaultToastError } from "~/components/ui/toast";
@@ -133,7 +133,6 @@ const Modal = ({
           Name
           <Input
             ref={inputRef}
-            className="text-sm font-normal"
             defaultValue={task ? task.content : ""}
             placeholder="Enter task name"
             onKeyDown={(e) => handleKeyDown(e, handleSave)}

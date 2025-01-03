@@ -1,18 +1,16 @@
 import TaskList from "~/components/tasks/list";
 import EmptyTaskList from "~/components/tasks/empty";
 import { api } from "~/trpc/server";
-import { type SelectTask } from "~/server/db/schema";
 import { auth } from "~/server/auth";
 
 export const dynamic = "force-dynamic";
 
 const Home = async ({ page }: { page: number }) => {
-  let tasks: SelectTask[] = [];
   try {
-    tasks = await api.task.getAll();
+    const tasks = await api.task.getAll();
     return (
       <HomeContent>
-        <TaskList initTasks={tasks} page={page} itemsPerPage={9} />
+        <TaskList initTasks={tasks} page={page} itemsPerPage={6} />
       </HomeContent>
     );
   } catch (error) {

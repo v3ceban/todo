@@ -28,7 +28,7 @@ import { updateUser } from "~/server/actions";
 import ErrorMessage from "~/components/ui/error-message";
 import { defaultToastError } from "../ui/toast";
 import { useToast } from "~/hooks/use-toast";
-import { Spinner } from "~/components/ui/spinner";
+import { Spinner } from "~/components/spinner";
 import { handleKeyDown, nameRegex } from "~/lib/utils";
 
 export const UserSettings = ({
@@ -137,7 +137,7 @@ export const UserSettings = ({
             <DialogTrigger asChild>
               <Button
                 variant="link"
-                className="w-full justify-start p-0 hover:no-underline"
+                className="justify-start p-0 w-full hover:no-underline"
               >
                 Settings
               </Button>
@@ -147,7 +147,7 @@ export const UserSettings = ({
             <AuthButton
               session={session}
               variant="link"
-              className="w-full justify-start p-0 hover:no-underline"
+              className="justify-start p-0 w-full hover:no-underline"
             />
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -160,11 +160,10 @@ export const UserSettings = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <Label className="flex items-center gap-4">
+          <Label className="flex gap-4 items-center">
             <span className="min-w-fit">First Name</span>
             <Input
               ref={fNameRef}
-              className="text-sm font-normal"
               defaultValue={username[0] ?? ""}
               placeholder="Enter your name"
               onKeyDown={(e) => handleKeyDown(e, handleClick)}
@@ -174,11 +173,10 @@ export const UserSettings = ({
             message={errors.firstName}
             condition={Boolean(errors.firstName)}
           />
-          <Label className="flex items-center gap-4">
+          <Label className="flex gap-4 items-center">
             <span className="min-w-fit">Last Name</span>
             <Input
               ref={lNameRef}
-              className="text-sm font-normal"
               defaultValue={username[username.length - 1] ?? ""}
               placeholder="Enter your last name"
               onKeyDown={(e) => handleKeyDown(e, handleClick)}

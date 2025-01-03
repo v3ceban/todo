@@ -74,7 +74,7 @@ const TaskList = ({
         </EmptyTaskList>
       )}
       <Modal
-        className="block m-auto mt-8 w-full max-w-sm sm:mr-0 sm:w-fit"
+        className="block m-auto my-8 w-full max-w-sm sm:mr-0 sm:w-fit"
         onCreate={handleCreate}
         accessKey="n"
       >

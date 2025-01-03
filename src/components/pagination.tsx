@@ -25,7 +25,7 @@ const Pagination = ({
   };
 
   return (
-    <PaginationContainer className="my-8 select-none">
+    <PaginationContainer className="mb-8 select-none">
       <PaginationContent className="grid grid-cols-3 place-items-stretch w-full max-w-sm sm:w-fit">
         <PaginationItem>
           <PaginationPrevious

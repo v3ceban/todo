@@ -29,7 +29,9 @@ const EmptyTaskList = ({
 
   return (
     <section className={cn(`flex flex-col-reverse items-center`, className)}>
-      <h3 className={cn(`text-lg font-semibold`, textClassName)}>{children}</h3>
+      <h3 className={cn(`text-center text-lg font-semibold`, textClassName)}>
+        {children}
+      </h3>
       <Image
         src={imgSrc}
         alt="Empty folder"

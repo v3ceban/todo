@@ -49,8 +49,8 @@ export const UserSettings = ({
   const { toast } = useToast();
 
   const handleClick = async () => {
-    const firstName = fNameRef.current?.value;
-    const lastName = lNameRef.current?.value;
+    const firstName = fNameRef.current?.value?.trim();
+    const lastName = lNameRef.current?.value?.trim();
 
     const newErrors = {
       firstName: null,
@@ -61,7 +61,6 @@ export const UserSettings = ({
       !firstName ||
       firstName.length > 100 ||
       firstName.length < 0 ||
-      firstName.trim() === "" ||
       !nameRegex.test(firstName)
     ) {
       newErrors.firstName = "Invalid first name";
@@ -71,7 +70,6 @@ export const UserSettings = ({
       !lastName ||
       lastName.length > 100 ||
       lastName.length < 0 ||
-      lastName.trim() === "" ||
       !nameRegex.test(lastName)
     ) {
       newErrors.lastName = "Invalid last name";
@@ -129,7 +127,7 @@ export const UserSettings = ({
             <DialogTrigger asChild>
               <Button
                 variant="link"
-                className="justify-start p-0 w-full hover:no-underline"
+                className="w-full justify-start p-0 hover:no-underline"
               >
                 Settings
               </Button>
@@ -139,7 +137,7 @@ export const UserSettings = ({
             <AuthButton
               session={session}
               variant="link"
-              className="justify-start p-0 w-full hover:no-underline"
+              className="w-full justify-start p-0 hover:no-underline"
             />
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -152,7 +150,7 @@ export const UserSettings = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <Label className="flex gap-4 items-center">
+          <Label className="flex items-center gap-4">
             <span className="min-w-fit">First Name</span>
             <Input
               ref={fNameRef}
@@ -165,7 +163,7 @@ export const UserSettings = ({
             message={errors.firstName}
             condition={Boolean(errors.firstName)}
           />
-          <Label className="flex gap-4 items-center">
+          <Label className="flex items-center gap-4">
             <span className="min-w-fit">Last Name</span>
             <Input
               ref={lNameRef}

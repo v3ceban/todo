@@ -21,8 +21,8 @@ const Pagination = ({
   usesLink?: boolean;
 }) => {
   return (
-    <PaginationContainer className="mt-4">
-      <PaginationContent className="grid grid-cols-3 place-items-stretch">
+    <PaginationContainer className="my-8">
+      <PaginationContent className="grid grid-cols-3 w-full max-w-sm sm:w-fit place-items-stretch">
         <PaginationItem>
           <PaginationPrevious
             onClick={() => {

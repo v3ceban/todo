@@ -29,6 +29,7 @@ import ErrorMessage from "~/components/ui/error-message";
 import { defaultToastError } from "../ui/toast";
 import { useToast } from "~/hooks/use-toast";
 import { Spinner } from "~/components/ui/spinner";
+import { nameRegex } from "~/lib/utils";
 
 export const UserSettings = ({
   username,
@@ -60,7 +61,8 @@ export const UserSettings = ({
       !firstName ||
       firstName.length > 100 ||
       firstName.length < 0 ||
-      firstName.trim() === ""
+      firstName.trim() === "" ||
+      !nameRegex.test(firstName)
     ) {
       newErrors.firstName = "Invalid first name";
     }
@@ -69,7 +71,8 @@ export const UserSettings = ({
       !lastName ||
       lastName.length > 100 ||
       lastName.length < 0 ||
-      lastName.trim() === ""
+      lastName.trim() === "" ||
+      !nameRegex.test(lastName)
     ) {
       newErrors.lastName = "Invalid last name";
     }
@@ -78,7 +81,6 @@ export const UserSettings = ({
       setErrors(newErrors);
       return;
     }
-
 
     try {
       setLoading(true);
@@ -127,7 +129,7 @@ export const UserSettings = ({
             <DialogTrigger asChild>
               <Button
                 variant="link"
-                className="w-full justify-start p-0 hover:no-underline"
+                className="justify-start p-0 w-full hover:no-underline"
               >
                 Settings
               </Button>
@@ -137,7 +139,7 @@ export const UserSettings = ({
             <AuthButton
               session={session}
               variant="link"
-              className="w-full justify-start p-0 hover:no-underline"
+              className="justify-start p-0 w-full hover:no-underline"
             />
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -150,7 +152,7 @@ export const UserSettings = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <Label className="flex items-center gap-4">
+          <Label className="flex gap-4 items-center">
             <span className="min-w-fit">First Name</span>
             <Input
               ref={fNameRef}
@@ -163,7 +165,7 @@ export const UserSettings = ({
             message={errors.firstName}
             condition={Boolean(errors.firstName)}
           />
-          <Label className="flex items-center gap-4">
+          <Label className="flex gap-4 items-center">
             <span className="min-w-fit">Last Name</span>
             <Input
               ref={lNameRef}
@@ -181,9 +183,9 @@ export const UserSettings = ({
           <DialogClose asChild>
             <Button variant="secondary">Cancel</Button>
           </DialogClose>
-          <Button onClick={handleClick}>{
-            loading ? <Spinner>Saving...</Spinner> : "Save"
-          }</Button>
+          <Button onClick={handleClick}>
+            {loading ? <Spinner>Saving...</Spinner> : "Save"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

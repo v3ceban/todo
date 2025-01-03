@@ -116,7 +116,9 @@ const Modal = ({
             <h3>{task ? "Edit your todo task" : "Add a new todo task"}</h3>
           </DialogTitle>
           <DialogDescription>
-            Enter or edit a <em className="not-italic underline underline-offset-3">short</em> name for your todo task below
+            Enter or edit a{" "}
+            <em className="not-italic underline underline-offset-3">short</em>{" "}
+            name for your todo task below
           </DialogDescription>
         </DialogHeader>
         <Label className="flex gap-4 items-center">
@@ -146,7 +148,7 @@ const Modal = ({
               className="sm:order-1 sm:px-0 sm:bg-transparent sm:shadow-none sm:text-destructive sm:underline-offset-3 sm:hover:bg-transparent sm:hover:underline"
             >
               {deleting ? (
-                <Spinner className="fill-red-500">Deleting...</Spinner>
+                <Spinner className="fill-destructive">Deleting...</Spinner>
               ) : (
                 "Delete"
               )}

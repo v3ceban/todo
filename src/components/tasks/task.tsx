@@ -21,9 +21,11 @@ import { defaultToastError } from "~/components/ui/toast";
 const Task = ({
   task,
   onDelete,
+  onUpdate,
 }: {
   task: SelectTask;
   onDelete: (task: SelectTask) => void;
+  onUpdate: (task: SelectTask) => void;
 }) => {
   const [state, setState] = React.useState(task);
   const [prevState, setPrevState] = React.useState(task);
@@ -101,6 +103,10 @@ const Task = ({
     if (deleting) return;
     deleteTask({ id: task.id });
   };
+
+  React.useEffect(() => {
+    onUpdate(state);
+  }, [state, onUpdate]);
 
   return (
     <li className="overflow-hidden max-w-full">

@@ -5,6 +5,7 @@ import { db } from "~/server/db";
 import { users } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { nameRegex } from "~/lib/utils";
 
 export const updateUser = async ({
   firstName,
@@ -15,7 +16,6 @@ export const updateUser = async ({
 }) => {
   const session = await auth();
   const name = `${firstName.trim()} ${lastName.trim()}`.trim();
-  const nameRegex = /^[a-zA-Z\s'-]+$/;
 
   if (!session) {
     throw new Error("Unauthorized");
@@ -23,8 +23,10 @@ export const updateUser = async ({
   if (!name || name.length > 255) {
     throw new Error("Invalid input");
   }
-  if (!nameRegex.test(name)) {
-    throw new Error("Invalid characters in name. Only letters, spaces, hyphens, and apostrophes are allowed.");
+  if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+    throw new Error(
+      "Invalid characters in name. Only letters, hyphens, and apostrophes are allowed.",
+    );
   }
   if (name === session.user.name) {
     return;

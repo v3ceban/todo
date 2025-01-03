@@ -20,6 +20,7 @@ import { api } from "~/trpc/react";
 import { useToast } from "~/hooks/use-toast";
 import { defaultToastError } from "~/components/ui/toast";
 import ErrorMessage from "../ui/error-message";
+import { handleKeyDown } from "~/lib/utils";
 
 const Modal = ({
   children,
@@ -92,13 +93,6 @@ const Modal = ({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSave();
-    }
-  }
-
   React.useEffect(() => {
     const zodContentErrors: string[] | undefined =
       updateError?.data?.zodError?.fieldErrors?.content ??
@@ -142,7 +136,7 @@ const Modal = ({
             className="text-sm font-normal"
             defaultValue={task ? task.content : ""}
             placeholder="Enter task name"
-            onKeyDown={handleKeyDown}
+            onKeyDown={(e) => handleKeyDown(e, handleSave)}
           />
         </Label>
         <ErrorMessage message={error} condition={Boolean(error)} />

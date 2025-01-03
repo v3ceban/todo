@@ -19,6 +19,7 @@ import { Spinner } from "~/components/ui/spinner";
 import { api } from "~/trpc/react";
 import { useToast } from "~/hooks/use-toast";
 import { defaultToastError } from "~/components/ui/toast";
+import ErrorMessage from "../ui/error-message";
 
 const Modal = ({
   children,
@@ -48,6 +49,7 @@ const Modal = ({
   const mutationSettings = {
     onMutate: () => {
       setLoading(true);
+      setError(null);
     },
     onSuccess: (data: SelectTask | void) => {
       const content = inputRef.current?.value.trim();
@@ -58,9 +60,6 @@ const Modal = ({
         onCreate(data);
       }
       setOpen(false);
-    },
-    onError: () => {
-      toast(defaultToastError);
     },
     onSettled: () => {
       setLoading(false);
@@ -93,8 +92,10 @@ const Modal = ({
     const contentError: string | undefined = zodContentErrors?.[0];
     if (contentError) {
       setError(contentError.replace("String", "Task name"));
+    } else if (updateError?.message || createError?.message) {
+      toast(defaultToastError);
     }
-  }, [updateError, createError, setError]);
+  }, [updateError, createError, setError, toast]);
 
   return (
     <Dialog
@@ -112,10 +113,10 @@ const Modal = ({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="text-left">
           <DialogTitle asChild>
-            <h3>{task ? "Edit todo task" : "Add a new todo task"}</h3>
+            <h3>{task ? "Edit your todo task" : "Add a new todo task"}</h3>
           </DialogTitle>
           <DialogDescription>
-            Enter or edit the name for your todo task below.
+            Enter or edit a <em className="not-italic underline underline-offset-3">short</em> name for your todo task below
           </DialogDescription>
         </DialogHeader>
         <Label className="flex gap-4 items-center">
@@ -127,11 +128,7 @@ const Modal = ({
             placeholder="Enter task name"
           />
         </Label>
-        <p
-          className={`text-sm text-red-500 ${error ? "opacity-100" : "opacity-0"} transition-opacity duration-200`}
-        >
-          {error}
-        </p>
+        <ErrorMessage message={error} condition={Boolean(error)} />
         <DialogFooter className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:gap-x-0 sm:space-x-0">
           <DialogClose asChild>
             <Button
@@ -146,7 +143,7 @@ const Modal = ({
               variant="destructive"
               disabled={deleting}
               onClick={onDelete}
-              className="sm:order-1 sm:px-0 sm:bg-transparent sm:shadow-none sm:text-destructive sm:underline-offset-4 sm:hover:bg-transparent sm:hover:underline"
+              className="sm:order-1 sm:px-0 sm:bg-transparent sm:shadow-none sm:text-destructive sm:underline-offset-3 sm:hover:bg-transparent sm:hover:underline"
             >
               {deleting ? (
                 <Spinner className="fill-red-500">Deleting...</Spinner>

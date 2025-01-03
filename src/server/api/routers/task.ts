@@ -5,7 +5,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ content: z.string().min(3).max(255) }))
+    .input(z.object({ content: z.string().min(1).max(255) }))
     .mutation(async ({ ctx, input }) => {
       const [newTask] = await ctx.db
         .insert(tasks)
@@ -33,7 +33,7 @@ export const taskRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         isCompleted: z.boolean().optional(),
-        content: z.string().optional(),
+        content: z.string().min(1).max(255).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

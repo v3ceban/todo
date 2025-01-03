@@ -105,13 +105,14 @@ const Task = ({
   return (
     <li className="overflow-hidden max-w-full">
       <Card className="flex flex-col justify-between h-full">
-        <CardHeader>
+        <CardHeader className="space-y-2">
           <Label
             className={`${state.isCompleted && "line-through"} flex items-center gap-x-2 text-xl`}
           >
             <Checkbox
               onCheckedChange={handleCheckedChange}
               checked={state.isCompleted}
+              className="w-6 h-6"
             />
             <h3 className="truncate" title={state.content}>
               {state.content}
@@ -119,7 +120,7 @@ const Task = ({
           </Label>
           <CardDescription className="flex justify-between">
             <div>
-              <span className="mr-1 font-semibold">Created:</span>
+              <span className="font-semibold">Created: </span>
               <span>
                 {task.createdAt.toLocaleDateString("en-US", {
                   year: "numeric",
@@ -130,7 +131,7 @@ const Task = ({
             </div>
             {state.isCompleted && state.completedAt && (
               <div>
-                <span className="mr-1 font-semibold">Done:</span>
+                <span className="font-semibold">Done: </span>
                 <span>
                   {state.completedAt.toLocaleDateString("en-US", {
                     year: "numeric",

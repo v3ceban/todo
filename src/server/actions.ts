@@ -6,18 +6,25 @@ import { users } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-export const updateUser = async (e: FormData) => {
+export const updateUser = async ({
+  firstName,
+  lastName,
+}: {
+  firstName: string;
+  lastName: string;
+}) => {
   const session = await auth();
-  const fistName = e.get("firstName") as string;
-  const lastName = e.get("lastName") as string;
-  const name = `${fistName.trim()} ${lastName.trim()}`.trim();
+  const name = `${firstName.trim()} ${lastName.trim()}`.trim();
+  const nameRegex = /^[a-zA-Z\s'-]+$/;
+
   if (!session) {
-    console.error("Unauthorized");
-    return;
+    throw new Error("Unauthorized");
   }
   if (!name || name.length > 255) {
-    console.error("Invalid name");
-    return;
+    throw new Error("Invalid input");
+  }
+  if (!nameRegex.test(name)) {
+    throw new Error("Invalid characters in name. Only letters, spaces, hyphens, and apostrophes are allowed.");
   }
   if (name === session.user.name) {
     return;
@@ -27,12 +34,12 @@ export const updateUser = async (e: FormData) => {
     await db
       .update(users)
       .set({
-        name: `${fistName} ${lastName}`,
+        name: `${firstName} ${lastName}`,
       })
       .where(eq(users.id, session.user.id));
     revalidatePath("/");
   } catch (error) {
     console.error("Failed to update profile", error);
-    return;
+    throw new Error("Failed to update profile. Please try again later.");
   }
 };

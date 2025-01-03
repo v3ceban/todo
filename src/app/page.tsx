@@ -2,8 +2,6 @@ import TaskList from "~/components/tasks/list";
 import EmptyTaskList from "~/components/tasks/empty";
 import { api } from "~/trpc/server";
 import { auth } from "~/server/auth";
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
 
 export const dynamic = "force-dynamic";
 

@@ -11,10 +11,11 @@ export const handleKeyDown = async (
   e: React.KeyboardEvent,
   cb: (() => void) | (() => Promise<void>),
 ) => {
-  if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-    return;
-  }
   if (e.key === "Enter") {
+    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+      (e.target as HTMLElement).blur();
+      return;
+    }
     e.preventDefault();
     await cb();
   }

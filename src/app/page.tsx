@@ -12,16 +12,19 @@ const Home = async ({ page }: { page: number }) => {
   try {
     const tasks = await api.task.getAll();
     return (
-      <HomeContent username={username}>
+      <>
+        <h2 className="mb-4 text-3xl font-bold">
+          {username ? `${username}'s Tasks` : "Todo App"}
+        </h2>
         <TaskList initTasks={tasks} page={page} itemsPerPage={6} />
-      </HomeContent>
+      </>
     );
   } catch (error) {
     if (error instanceof Error && error.message === "UNAUTHORIZED") {
       return (
         <EmptyTaskList
           imgSrc="/to-do-list.webp"
-          className="mx-8 min-h-[calc(100dvh-(69px-16px)*4)] justify-center"
+          className="mx-8 mb-8 min-h-[calc(100dvh-(69px-16px)*4)] justify-center"
           textClassName="mt-4 text-center"
         >
           <h3>Welcome to your task list! Sign in to get started.</h3>
@@ -34,33 +37,19 @@ const Home = async ({ page }: { page: number }) => {
     } else {
       console.error(error);
       return (
-        <HomeContent username={username}>
-          <EmptyTaskList imgSrc="/empty-folder.webp">
+        <>
+          <h2 className="mb-4 text-3xl font-bold">
+            {username ? `${username}'s Tasks` : "Todo App"}
+          </h2>
+          <EmptyTaskList className="mb-8" imgSrc="/empty-folder.webp">
             <h3>
               An error occurred while fetching tasks. Please try again later.
             </h3>
           </EmptyTaskList>
-        </HomeContent>
+        </>
       );
     }
   }
-};
-
-const HomeContent = async ({
-  username,
-  children,
-}: {
-  username?: string;
-  children: Readonly<React.ReactNode>;
-}) => {
-  return (
-    <>
-      <h2 className="mb-4 text-3xl font-bold">
-        {username ? `${username}'s Tasks` : "Todo App"}
-      </h2>
-      {children}
-    </>
-  );
 };
 
 export default Home;

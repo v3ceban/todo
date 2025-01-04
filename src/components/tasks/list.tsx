@@ -68,9 +68,11 @@ const TaskList = ({
         </ul>
       ) : (
         <EmptyTaskList imgSrc="/empty-folder.webp">
-          {searchQuery
-            ? "We couldn't find any tasks matching your search, please try again."
-            : "You do not have any tasks yet. Try creating one!"}
+          <h3>
+            {searchQuery
+              ? "We couldn't find any tasks matching your search, please try again."
+              : "You do not have any tasks yet. Try creating one!"}
+          </h3>
         </EmptyTaskList>
       )}
       <Modal

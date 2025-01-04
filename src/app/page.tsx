@@ -41,7 +41,10 @@ const Home = async ({ page }: { page: number }) => {
           <h2 className="mb-4 text-3xl font-bold">
             {username ? `${username}'s Tasks` : "Todo App"}
           </h2>
-          <EmptyTaskList className="mb-8" imgSrc="/empty-folder.webp">
+          <EmptyTaskList
+            className="mx-8 mb-8 min-h-[calc(100dvh-(69px-16px)*4)] justify-center"
+            imgSrc="/empty-folder.webp"
+          >
             <h3>
               An error occurred while fetching tasks. Please try again later.
             </h3>
